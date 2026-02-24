@@ -1,0 +1,84 @@
+.aptPage {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 16px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.aptTitle {
+  margin: 0 0 16px;
+  font-size: 28px;
+}
+
+.aptGrid {
+  display: grid;
+  gap: 14px;
+}
+
+.aptCard {
+  border: 1px solid #dedede;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+}
+
+.aptTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.aptPrice {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.aptMeters {
+  opacity: 0.85;
+}
+
+.aptDesc {
+  margin: 10px 0 12px;
+  line-height: 1.35;
+}
+
+.aptLink {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.aptLink:hover {
+  text-decoration: underline;
+}
+
+.aptState {
+  margin-top: 14px;
+}
+
+.aptError {
+  color: crimson;
+}
+
+.aptBack {
+  display: inline-block;
+  margin-bottom: 10px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.aptBack:hover {
+  text-decoration: underline;
+}
+
+.aptBox {
+  border: 1px solid #dedede;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+}
+
+.aptEmpty {
+  margin-top: 12px;
+  opacity: 0.8;
+}

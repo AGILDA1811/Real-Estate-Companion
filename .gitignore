@@ -13,3 +13,10 @@ __pycache__/
 *.joblib
 
 .env
+
+
+# Data
+*.json
+*.csv
+*.parquet
+*.zip
