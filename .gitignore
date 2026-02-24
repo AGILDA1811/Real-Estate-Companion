@@ -9,8 +9,13 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 
-# data
-tirana_house_prices.json
+# ML models
+*.joblib
+
+.env
+
+
+# Data
 *.json
 *.csv
 *.parquet
