@@ -10,6 +10,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # data
+tirana_house_prices.json
 *.json
 *.csv
 *.parquet
