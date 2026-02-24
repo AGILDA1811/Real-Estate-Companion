@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/navbar";
+import Footer from "./components/Footer/footer";
 
 import Home from "./pages/Home";
 import Apartments from "./pages/Apartaments";
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/help" element={<Help />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer />
     </>
   );
 }
