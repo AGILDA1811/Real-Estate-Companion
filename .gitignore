@@ -1,1 +1,15 @@
 node_modules/
+
+# venv
+venv/
+ml/venv/
+
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# ML models
+*.joblib
+
+.env
