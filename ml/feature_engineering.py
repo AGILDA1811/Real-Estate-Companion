@@ -15,7 +15,8 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
     dlat = lat2 - lat1
     dlon = lon2 - lon1
-    a = sin(dlat/2)*2 + cos(lat1)*cos(lat2)*sin(dlon/2)*2
+    a = sin(dlat/2)**2 + cos(lat1)*cos(lat2)*sin(dlon/2)**2
+    a = min(1.0, max(0.0, a))
     return R * 2 * atan2(sqrt(a), sqrt(1-a))
 
 def build_features(df):
@@ -68,7 +69,7 @@ def build_features(df):
     return X, y, available_features
 
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     from data_cleaning import load_and_clean_data
     df = load_and_clean_data()
     X, y, features = build_features(df)

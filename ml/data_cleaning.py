@@ -49,6 +49,6 @@ def load_and_clean_data(filepath="tirana_house_prices.json"):
     return df
 
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     df = load_and_clean_data()
     print(df.head())
