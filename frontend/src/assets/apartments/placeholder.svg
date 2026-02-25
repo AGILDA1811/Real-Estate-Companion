@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#e8edf5"/>
+  <rect x="100" y="100" width="1000" height="600" rx="24" fill="#d6dfeb"/>
+  <text x="600" y="390" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="46" fill="#4a607f">No Photo Available</text>
+</svg>

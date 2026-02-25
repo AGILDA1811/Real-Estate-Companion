@@ -1,10 +1,7 @@
 // TEMP FAKE API (replace later with real backend fetch)
-const apartment1 =
-  "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1600&q=80";
-const apartment2 =
-  "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80";
-const apartment3 =
-  "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1600&q=80";
+import apartment1 from "../../assets/apartments/apartment-1.svg";
+import apartment2 from "../../assets/apartments/apartment-2.svg";
+import apartment3 from "../../assets/apartments/apartment-3.svg";
 
 const fakeApartments = [
   {
@@ -20,6 +17,7 @@ const fakeApartments = [
     floor: 4,
     hasCompleteInfo: true,
     images: [apartment1, apartment2, apartment3],
+    image: apartment1,
     description:
       "Modern apartment near the city center with a practical layout, bright living area, and easy access to transport and everyday services. Ideal for professionals and couples looking for a central location.",
   },
@@ -36,6 +34,7 @@ const fakeApartments = [
     floor: 6,
     hasCompleteInfo: true,
     images: [apartment2, apartment3, apartment1],
+    image: apartment2,
     description:
       "Spacious apartment with natural light and a generous living room. Located in a lively area with cafes, schools, and green spaces nearby. Suitable for families who need more space and convenience.",
   },
@@ -52,6 +51,7 @@ const fakeApartments = [
     floor: 2,
     hasCompleteInfo: false,
     images: [apartment3, apartment1],
+    image: apartment3,
     description:
       "Cozy apartment perfect for students or first-time renters. Compact but efficient floor plan, with nearby grocery stores and direct bus connections.",
   },
@@ -68,6 +68,7 @@ const fakeApartments = [
     floor: 8,
     hasCompleteInfo: true,
     images: [apartment1, apartment3, apartment2],
+    image: apartment1,
     description:
       "Large family apartment featuring a balcony with open views, spacious bedrooms, and a comfortable kitchen area. Quiet neighborhood with easy road access.",
   },
@@ -84,6 +85,7 @@ const fakeApartments = [
     floor: 3,
     hasCompleteInfo: true,
     images: [apartment2, apartment1, apartment3],
+    image: apartment2,
     description:
       "Freshly renovated apartment in a calm residential area. Functional interiors and quality finishes make this a balanced option for long-term living.",
   },
@@ -100,6 +102,7 @@ const fakeApartments = [
     floor: 5,
     hasCompleteInfo: true,
     images: [apartment3, apartment2, apartment1],
+    image: apartment3,
     description:
       "Bright apartment with practical layout, storage space, and dedicated parking. A solid option for buyers looking for good size-to-price value.",
   },
