@@ -5,6 +5,9 @@ export default function ApartmentCard({
   apartment,
   isGoodDeal = false,
   estimatedPrice = null,
+  isCompared = false,
+  compareDisabled = false,
+  onToggleCompare,
 }) {
   if (!apartment) return null;
 
@@ -28,6 +31,17 @@ export default function ApartmentCard({
         ) : null}
 
         <p className="apartments-desc">{apartment.description || "No description available."}</p>
+
+        {typeof onToggleCompare === "function" ? (
+          <button
+            type="button"
+            className={`apartments-compareBtn ${isCompared ? "is-active" : ""}`}
+            onClick={onToggleCompare}
+            disabled={compareDisabled}
+          >
+            {isCompared ? "Remove from Compare" : "Add to Compare"}
+          </button>
+        ) : null}
 
         {id ? (
           <Link className="apartments-link" to={`/apartments/${id}`}>

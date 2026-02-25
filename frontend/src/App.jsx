@@ -20,6 +20,7 @@ import ToolsLayout from "./pages/Tools/ToolsLayout";
 import EstimatorTool from "./pages/Tools/EstimatorTool";
 import DealFinderTool from "./pages/Tools/DealFinderTool";
 import MarketDashboard from "./pages/Tools/MarketDashboard";
+import CompareTool from "./pages/Tools/CompareTool";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./pages/Admin/AdminLayout";
 import Dashboard from "./pages/Admin/Dashboard";
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="estimator" element={<EstimatorTool />} />
           <Route path="deal-finder" element={<DealFinderTool />} />
           <Route path="market-dashboard" element={<MarketDashboard />} />
+          <Route path="compare" element={<CompareTool />} />
         </Route>
         <Route
           path="/admin"

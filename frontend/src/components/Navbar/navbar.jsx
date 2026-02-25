@@ -1,17 +1,27 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import "./navbar.css";
 
 import logo from "../../assets/logo.png";
 export default function Navbar() {
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const menuRef = useRef(null);
+  const closeTimerRef = useRef(null);
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  };
 
   
   useEffect(() => {
     const onDown = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
+        clearCloseTimer();
         setOpen(false);
         setToolsOpen(false);
       }
@@ -24,6 +34,7 @@ export default function Navbar() {
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") {
+        clearCloseTimer();
         setOpen(false);
         setToolsOpen(false);
       }
@@ -32,17 +43,35 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  useEffect(() => {
+    return () => clearCloseTimer();
+  }, []);
+
   const close = () => {
+    clearCloseTimer();
     setOpen(false);
     setToolsOpen(false);
   };
 
-  const toggleTools = () => setToolsOpen((v) => !v);
+  const toolsActive = location.pathname.startsWith("/tools");
+
+  const toggleTools = () => {
+    clearCloseTimer();
+    setToolsOpen((v) => !v);
+  };
   const openToolsOnHover = () => {
-    if (window.matchMedia("(min-width: 921px)").matches) setToolsOpen(true);
+    if (window.matchMedia("(min-width: 921px)").matches) {
+      clearCloseTimer();
+      setToolsOpen(true);
+    }
   };
   const closeToolsOnHover = () => {
-    if (window.matchMedia("(min-width: 921px)").matches) setToolsOpen(false);
+    if (window.matchMedia("(min-width: 921px)").matches) {
+      clearCloseTimer();
+      closeTimerRef.current = setTimeout(() => {
+        setToolsOpen(false);
+      }, 220);
+    }
   };
 
   return (
@@ -94,7 +123,7 @@ export default function Navbar() {
           >
             <button
               type="button"
-              className="navbar-toolsToggle"
+              className={`navbar-toolsToggle ${toolsActive ? "is-active" : ""}`}
               onClick={toggleTools}
               aria-expanded={toolsOpen}
               aria-haspopup="true"
@@ -102,9 +131,10 @@ export default function Navbar() {
               Tools
             </button>
             <div className="navbar-toolsMenu">
-              <Link to="/tools/estimator" onClick={close}>Price Estimator</Link>
-              <Link to="/tools/deal-finder" onClick={close}>Deal Finder</Link>
-              <Link to="/tools/market-dashboard" onClick={close}>Market Dashboard</Link>
+              <NavLink to="/tools/estimator" className={({ isActive }) => (isActive ? "is-active" : "")} onClick={close}>Price Estimator</NavLink>
+              <NavLink to="/tools/deal-finder" className={({ isActive }) => (isActive ? "is-active" : "")} onClick={close}>Deal Finder</NavLink>
+              <NavLink to="/tools/market-dashboard" className={({ isActive }) => (isActive ? "is-active" : "")} onClick={close}>Market Dashboard</NavLink>
+              <NavLink to="/tools/compare" className={({ isActive }) => (isActive ? "is-active" : "")} onClick={close}>Compare Properties</NavLink>
             </div>
           </div>
 

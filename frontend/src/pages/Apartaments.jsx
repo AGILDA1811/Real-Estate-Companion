@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useApartments } from "../components/hooks/useApartments";
 import SearchBar from "../components/apartaments/SearchBar";
 import FiltersBar from "../components/apartaments/FiltersBar";
 import ApartmentCard from "../components/apartaments/ApartmentCard";
 import { evaluateDeal, getEstimate } from "../services/estimatorService";
+import { useCompare } from "../context/CompareContext";
 import "../components/apartaments/apartments.css";
 
 function toEstimatePayload(listing) {
@@ -24,6 +26,7 @@ function getListingId(listing) {
 
 export default function ApartmentsPage() {
   const { apartments, loading, error } = useApartments();
+  const { compareList, addToCompare, removeFromCompare } = useCompare();
 
   const [searchValues, setSearchValues] = useState({
     location: "",
@@ -44,6 +47,7 @@ export default function ApartmentsPage() {
   const [estimatesById, setEstimatesById] = useState({});
   const [loadingEstimates, setLoadingEstimates] = useState(false);
   const [estimateError, setEstimateError] = useState("");
+  const [compareNotice, setCompareNotice] = useState("");
 
   useEffect(() => {
     if (!apartments.length) return;
@@ -101,6 +105,23 @@ export default function ApartmentsPage() {
     setSearchValues(cleared);
     setAppliedSearch(cleared);
     setGoodDealsOnly(false);
+  }
+
+  function isCompared(listing) {
+    const id = getListingId(listing);
+    return compareList.some((item) => getListingId(item) === id);
+  }
+
+  function handleCompareToggle(listing) {
+    const id = getListingId(listing);
+    if (isCompared(listing)) {
+      removeFromCompare(id);
+      setCompareNotice("Removed from comparison.");
+      return;
+    }
+
+    const result = addToCompare(listing);
+    setCompareNotice(result.message);
   }
 
   const filteredApartments = useMemo(() => {
@@ -170,18 +191,25 @@ export default function ApartmentsPage() {
 
         <section className="apartments-resultsHeader">
           <p>{filteredApartments.length} Apartments Found</p>
-          <div className="apartments-filterGroup apartments-filterGroupInline">
-            <label htmlFor="apartments-sort-inline">Sort</label>
-            <select
-              id="apartments-sort-inline"
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-            >
-              <option value="price-asc">Price: low to high</option>
-              <option value="price-desc">Price: high to low</option>
-            </select>
+          <div className="apartments-resultsActions">
+            <Link to="/tools/compare" className="apartments-compareNowBtn">
+              Compare Now ({compareList.length}/3)
+            </Link>
+            <div className="apartments-filterGroup apartments-filterGroupInline">
+              <label htmlFor="apartments-sort-inline">Sort</label>
+              <select
+                id="apartments-sort-inline"
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+              </select>
+            </div>
           </div>
         </section>
+
+        {compareNotice ? <p className="apartments-state apartments-compareNotice">{compareNotice}</p> : null}
 
         {loading ? <p className="apartments-state">Loading...</p> : null}
         {error ? <p className="apartments-state apartments-error">{error}</p> : null}
@@ -202,6 +230,9 @@ export default function ApartmentsPage() {
                     apartment={apartment}
                     isGoodDeal={deal.isGoodDeal}
                     estimatedPrice={estimate?.estimatedPrice ?? null}
+                    isCompared={isCompared(apartment)}
+                    compareDisabled={!isCompared(apartment) && compareList.length >= 3}
+                    onToggleCompare={() => handleCompareToggle(apartment)}
                   />
                 );
               })}
