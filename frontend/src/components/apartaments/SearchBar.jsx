@@ -53,6 +53,55 @@ export default function SearchBar({ values, onChange, onSubmit, onClear }) {
           />
         </div>
 
+        <div className="apartments-field">
+          <label htmlFor="apartments-bathrooms">Bathrooms</label>
+          <input
+            id="apartments-bathrooms"
+            type="number"
+            name="bathrooms"
+            placeholder="Any"
+            value={values.bathrooms}
+            onChange={onChange}
+            min="1"
+          />
+        </div>
+
+        <div className="apartments-field">
+          <label htmlFor="apartments-minSqm">Min m²</label>
+          <input
+            id="apartments-minSqm"
+            type="number"
+            name="minSqm"
+            placeholder="0"
+            value={values.minSqm}
+            onChange={onChange}
+            min="0"
+          />
+        </div>
+
+        <div className="apartments-field">
+          <label htmlFor="apartments-maxSqm">Max m²</label>
+          <input
+            id="apartments-maxSqm"
+            type="number"
+            name="maxSqm"
+            placeholder="No limit"
+            value={values.maxSqm}
+            onChange={onChange}
+            min="0"
+          />
+        </div>
+
+        <label className="apartments-toggle apartments-toggleInline">
+          <input
+            type="checkbox"
+            name="elevatorOnly"
+            checked={Boolean(values.elevatorOnly)}
+            onChange={onChange}
+          />
+          <span>Elevator only</span>
+        </label>
+
         <div className="apartments-searchActions">
           <button className="apartments-btn apartments-btnPrimary" type="submit">
             Search

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./apartments.css";
 
@@ -11,7 +12,10 @@ export default function ApartmentCard({
 }) {
   if (!apartment) return null;
 
+  const [expanded, setExpanded] = useState(false);
   const id = apartment.id || apartment._id;
+  const description = apartment.description || "No description available.";
+  const canExpand = description.length > 180;
 
   return (
     <article className="apartments-card card-hover">
@@ -30,24 +34,36 @@ export default function ApartmentCard({
           <p className="apartments-meta">Estimated: {Math.round(estimatedPrice)} €</p>
         ) : null}
 
-        <p className="apartments-desc">{apartment.description || "No description available."}</p>
+        <p className={`apartments-desc ${expanded ? "is-expanded" : ""}`}>{description}</p>
 
-        {typeof onToggleCompare === "function" ? (
+        {canExpand ? (
           <button
             type="button"
-            className={`apartments-compareBtn ${isCompared ? "is-active" : ""}`}
-            onClick={onToggleCompare}
-            disabled={compareDisabled}
+            className="apartments-loadMoreBtn"
+            onClick={() => setExpanded((prev) => !prev)}
           >
-            {isCompared ? "Remove from Compare" : "Add to Compare"}
+            {expanded ? "Show less" : "Load more"}
           </button>
         ) : null}
 
-        {id ? (
-          <Link className="apartments-link" to={`/apartments/${id}`}>
-            View details →
-          </Link>
-        ) : null}
+        <div className="apartments-cardActions">
+          {typeof onToggleCompare === "function" ? (
+            <button
+              type="button"
+              className={`apartments-compareBtn ${isCompared ? "is-active" : ""}`}
+              onClick={onToggleCompare}
+              disabled={compareDisabled}
+            >
+              {isCompared ? "Remove from Compare" : "Add to Compare"}
+            </button>
+          ) : null}
+
+          {id ? (
+            <Link className="apartments-link" to={`/apartments/${id}`}>
+              View details →
+            </Link>
+          ) : null}
+        </div>
       </div>
     </article>
   );

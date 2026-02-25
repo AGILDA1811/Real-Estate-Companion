@@ -25,6 +25,7 @@ function getListingId(listing) {
 }
 
 export default function ApartmentsPage() {
+  const PAGE_SIZE = 24;
   const { apartments, loading, error } = useApartments();
   const { compareList, addToCompare, removeFromCompare } = useCompare();
 
@@ -33,12 +34,20 @@ export default function ApartmentsPage() {
     minPrice: "",
     maxPrice: "",
     rooms: "",
+    bathrooms: "",
+    minSqm: "",
+    maxSqm: "",
+    elevatorOnly: false,
   });
   const [appliedSearch, setAppliedSearch] = useState({
     location: "",
     minPrice: "",
     maxPrice: "",
     rooms: "",
+    bathrooms: "",
+    minSqm: "",
+    maxSqm: "",
+    elevatorOnly: false,
   });
   const [sort, setSort] = useState("price-asc");
   const [goodDealsOnly, setGoodDealsOnly] = useState(false);
@@ -48,6 +57,7 @@ export default function ApartmentsPage() {
   const [loadingEstimates, setLoadingEstimates] = useState(false);
   const [estimateError, setEstimateError] = useState("");
   const [compareNotice, setCompareNotice] = useState("");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     if (!apartments.length) return;
@@ -91,7 +101,11 @@ export default function ApartmentsPage() {
   }, [apartments, estimatesById]);
 
   function handleSearchChange(e) {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      setSearchValues((prev) => ({ ...prev, [name]: checked }));
+      return;
+    }
     setSearchValues((prev) => ({ ...prev, [name]: value }));
   }
 
@@ -101,7 +115,16 @@ export default function ApartmentsPage() {
   }
 
   function handleClearSearch() {
-    const cleared = { location: "", minPrice: "", maxPrice: "", rooms: "" };
+    const cleared = {
+      location: "",
+      minPrice: "",
+      maxPrice: "",
+      rooms: "",
+      bathrooms: "",
+      minSqm: "",
+      maxSqm: "",
+      elevatorOnly: false,
+    };
     setSearchValues(cleared);
     setAppliedSearch(cleared);
     setGoodDealsOnly(false);
@@ -143,11 +166,17 @@ export default function ApartmentsPage() {
     const minPrice = Number(appliedSearch.minPrice) || 0;
     const maxPrice = Number(appliedSearch.maxPrice) || Number.POSITIVE_INFINITY;
     const rooms = Number(appliedSearch.rooms) || 0;
+    const bathrooms = Number(appliedSearch.bathrooms) || 0;
+    const minSqm = Number(appliedSearch.minSqm) || 0;
+    const maxSqm = Number(appliedSearch.maxSqm) || Number.POSITIVE_INFINITY;
+    const elevatorOnly = Boolean(appliedSearch.elevatorOnly);
 
     const base = apartments.filter((apartment) => {
       const aptLocation = (apartment.location || "").toLowerCase();
       const price = Number(apartment.price) || 0;
       const aptRooms = Number(apartment.rooms) || 0;
+      const aptBathrooms = Number(apartment.bathrooms) || 0;
+      const aptSqm = Number(apartment.size ?? apartment.meters) || 0;
       const estimate = estimatesById[getListingId(apartment)];
       const deal = evaluateDeal(apartment.price, estimate?.estimatedPrice);
 
@@ -155,6 +184,10 @@ export default function ApartmentsPage() {
       const matchesMinPrice = price >= minPrice;
       const matchesMaxPrice = price <= maxPrice;
       const matchesRooms = !rooms || aptRooms >= rooms;
+      const matchesBathrooms = !bathrooms || aptBathrooms >= bathrooms;
+      const matchesSqm = aptSqm >= minSqm;
+      const matchesMaxSqm = aptSqm <= maxSqm;
+      const matchesElevator = !elevatorOnly || apartment.hasElevator === true;
       const matchesGoodDeals = !goodDealsOnly || deal.isGoodDeal;
       const matchesRange = price <= priceRange;
 
@@ -163,6 +196,10 @@ export default function ApartmentsPage() {
         matchesMinPrice &&
         matchesMaxPrice &&
         matchesRooms &&
+        matchesBathrooms &&
+        matchesSqm &&
+        matchesMaxSqm &&
+        matchesElevator &&
         matchesGoodDeals &&
         matchesRange
       );
@@ -176,6 +213,17 @@ export default function ApartmentsPage() {
     });
     return sorted;
   }, [apartments, appliedSearch, sort, goodDealsOnly, priceRange, estimatesById]);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [appliedSearch, sort, goodDealsOnly, priceRange]);
+
+  const visibleApartments = useMemo(
+    () => filteredApartments.slice(0, visibleCount),
+    [filteredApartments, visibleCount]
+  );
+
+  const canLoadMore = visibleCount < filteredApartments.length;
 
   return (
     <motion.main
@@ -234,7 +282,7 @@ export default function ApartmentsPage() {
         {!loading && !error ? (
           filteredApartments.length ? (
             <section className="apartments-grid">
-              {filteredApartments.map((apartment) => {
+              {visibleApartments.map((apartment) => {
                 const id = getListingId(apartment);
                 const estimate = estimatesById[id];
                 const deal = evaluateDeal(apartment.price, estimate?.estimatedPrice);
@@ -255,6 +303,18 @@ export default function ApartmentsPage() {
           ) : (
             <p className="apartments-empty">No apartments match the current filters.</p>
           )
+        ) : null}
+
+        {!loading && !error && canLoadMore ? (
+          <div className="apartments-loadMoreWrap">
+            <button
+              type="button"
+              className="apartments-loadMoreMainBtn"
+              onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+            >
+              Load more
+            </button>
+          </div>
         ) : null}
       </div>
     </motion.main>

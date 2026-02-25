@@ -23,6 +23,11 @@ __pycache__/
 *.csv
 *.parquet
 *.zip
+!ml/tirana_house_prices.json
+!backend/package.json
+!backend/package-lock.json
+!frontend/package.json
+!frontend/package-lock.json
 
 # Backend build output
 backend/dist/

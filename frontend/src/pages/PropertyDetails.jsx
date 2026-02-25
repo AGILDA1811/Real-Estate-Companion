@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import { fetchApartmentById } from "../components/services/apartments.api";
+import { fetchApartmentById, fetchCompsByApartmentId } from "../components/services/apartments.api";
 import { evaluateDeal, getEstimate } from "../services/estimatorService";
 import "../components/apartaments/apartments.css";
 import "./propertyDetails.css";
@@ -26,6 +26,9 @@ export default function PropertyDetails() {
   const [estimate, setEstimate] = useState(null);
   const [loadingEstimate, setLoadingEstimate] = useState(false);
   const [estimateError, setEstimateError] = useState("");
+  const [comps, setComps] = useState([]);
+  const [loadingComps, setLoadingComps] = useState(false);
+  const [compsError, setCompsError] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -78,6 +81,32 @@ export default function PropertyDetails() {
       active = false;
     };
   }, [property]);
+
+  useEffect(() => {
+    if (!id) return;
+    let active = true;
+
+    (async () => {
+      try {
+        setLoadingComps(true);
+        setCompsError("");
+        const data = await fetchCompsByApartmentId(id);
+        if (!active) return;
+        setComps(Array.isArray(data) ? data : []);
+      } catch (e) {
+        if (active) {
+          setComps([]);
+          setCompsError(e?.message || "Comparable listings unavailable.");
+        }
+      } finally {
+        if (active) setLoadingComps(false);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [id]);
 
   const deal = useMemo(
     () => evaluateDeal(property?.price, estimate?.estimatedPrice),
@@ -139,6 +168,10 @@ export default function PropertyDetails() {
                 <div><span>Rooms</span><strong>{property.rooms ?? "—"}</strong></div>
                 <div><span>Bathrooms</span><strong>{property.bathrooms ?? "—"}</strong></div>
                 <div><span>Floor</span><strong>{property.floor ?? "—"}</strong></div>
+                <div><span>Furnishing</span><strong>{property.furnishing || "unknown"}</strong></div>
+                <div><span>Elevator</span><strong>{property.hasElevator ? "Yes" : "No"}</strong></div>
+                <div><span>Terrace</span><strong>{property.hasTerrace ? "Yes" : "No"}</strong></div>
+                <div><span>Address</span><strong>{property.address || property.location || "—"}</strong></div>
               </div>
 
               <div className="property-divider" />
@@ -161,6 +194,14 @@ export default function PropertyDetails() {
                     : typeof estimate?.estimatedPrice === "number"
                       ? `${Math.round(estimate.estimatedPrice)} €`
                       : "Unavailable"}
+                </strong>
+              </div>
+              <div className="property-summaryRow">
+                <span>Fair Range</span>
+                <strong>
+                  {typeof estimate?.low === "number" && typeof estimate?.high === "number"
+                    ? `${Math.round(estimate.low)} € - ${Math.round(estimate.high)} €`
+                    : "—"}
                 </strong>
               </div>
               <div className={`property-summaryRow ${deal.isGoodDeal ? "is-positive" : ""}`}>
@@ -190,6 +231,28 @@ export default function PropertyDetails() {
               ) : null}
             </aside>
           </div>
+        </section>
+
+        <section className="property-card property-card-comps">
+          <h2 className="property-subtitle">Comparable Properties (Top 5)</h2>
+          {loadingComps ? <p className="property-compsState">Loading comparable listings...</p> : null}
+          {compsError ? <p className="property-compsError">{compsError}</p> : null}
+          {!loadingComps && !compsError && !comps.length ? (
+            <p className="property-compsState">No comparable listings found.</p>
+          ) : null}
+
+          {comps.length ? (
+            <div className="property-compsList">
+              {comps.map((comp) => (
+                <article key={comp.id} className="property-compItem">
+                  <p><strong>Price:</strong> {Math.round(comp.price || 0).toLocaleString()} €</p>
+                  <p><strong>Size:</strong> {comp.meters ?? "—"} m²</p>
+                  <p><strong>Rooms:</strong> {comp.rooms ?? "—"}</p>
+                  <p><strong>Why similar:</strong> {comp.reason || "Nearby and similar size/rooms"}</p>
+                </article>
+              ))}
+            </div>
+          ) : null}
         </section>
       </div>
     </motion.main>

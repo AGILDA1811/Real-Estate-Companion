@@ -50,6 +50,8 @@ export class EstimateService {
 
       return {
         estimatedPrice,
+        low: Math.round(low),
+        high: Math.round(high),
         confidence: Number(confidence.toFixed(2)),
         explanation: `Estimated by ML model using size/rooms and Tirana location features.`,
       };
@@ -61,6 +63,8 @@ export class EstimateService {
       const estimatedPrice = Math.round(basePrice + sizeFactor + roomsFactor + locationFactor);
       return {
         estimatedPrice,
+        low: Math.round(estimatedPrice * 0.9),
+        high: Math.round(estimatedPrice * 1.1),
         confidence: 0.58,
         explanation: 'Fallback estimate used because ML API is unavailable.',
       };

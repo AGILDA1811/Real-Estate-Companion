@@ -10,6 +10,8 @@ export type EstimateRequest = {
 
 export type EstimateResponse = {
   estimatedPrice: number;
+  low: number;
+  high: number;
   confidence: number;
   explanation: string;
 };

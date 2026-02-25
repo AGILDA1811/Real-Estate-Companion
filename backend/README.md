@@ -1,16 +1,90 @@
-# Backend (Nest.js) - Phase 1
+# Backend API (NestJS)
 
-Simple BFF API for frontend integration on `http://localhost:4000`.
+NestJS backend acting as BFF/API layer between frontend and ML service.
 
-## Endpoints
+- Default URL: `http://127.0.0.1:4000`
+- Depends on ML API: `http://127.0.0.1:5001`
+
+## Tech
+
+- NestJS 10
+- TypeScript
+
+## Setup
+
+```bash
+cd backend
+npm install
+```
+
+## Run
+
+```bash
+npm run start:dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Environment
+
+Create `backend/.env` (optional):
+
+```env
+PORT=4000
+ML_API_BASE_URL=http://127.0.0.1:5001
+```
+
+## API Endpoints
+
+### Health
 
 - `GET /health`
+
+### Listings
+
+- `GET /listings?limit=100`
+- `GET /listings/:id`
+- `GET /listings/:id/comps?limit=5`
+
+### Estimation
+
+- `POST /estimate`
+
+Request body:
+
+```json
+{
+  "id": "listing-1",
+  "price": 120000,
+  "size": 85,
+  "rooms": 2,
+  "location": "Tirana"
+}
+```
+
+Response body:
+
+```json
+{
+  "estimatedPrice": 128000,
+  "low": 115000,
+  "high": 141000,
+  "confidence": 0.74,
+  "explanation": "Estimated by ML model using size/rooms and Tirana location features."
+}
+```
+
+### Auth (MVP mock auth)
+
 - `POST /auth/signup`
 - `POST /auth/login`
-- `POST /estimate`
-- `GET /listings?limit=20`
-- `GET /listings/:id`
-- `GET /analytics/market`
+
+### Admin (MVP)
+
 - `GET /admin/stats`
 - `GET /admin/listings`
 - `PATCH /admin/listings/:id`
@@ -19,51 +93,20 @@ Simple BFF API for frontend integration on `http://localhost:4000`.
 - `PATCH /admin/users/:id`
 - `DELETE /admin/users/:id`
 
-## `POST /estimate` request body
+### Analytics (MVP)
 
-```json
-{
-  "id": "tool-1",
-  "price": 120000,
-  "size": 85,
-  "rooms": 2,
-  "location": "Tirana"
-}
-```
+- `GET /analytics/market`
 
-## `POST /estimate` response
+## Behavior Notes
 
-```json
-{
-  "estimatedPrice": 128000,
-  "confidence": 0.74,
-  "explanation": "Estimated by ML model using size/rooms and Tirana location features."
-}
-```
+- `POST /estimate` has fallback logic if ML prediction is unavailable.
+- Listing endpoints currently rely on ML dataset endpoints.
 
-## Run
+## Troubleshooting
 
-1. Start ML API first:
+- If `/listings` fails, ensure ML API is running on `5001`.
+- Verify with:
 
 ```bash
-cd ml
-python app.py
+curl -s http://127.0.0.1:5001/health
 ```
-
-2. Start Nest.js backend:
-
-```bash
-cd backend
-npm install
-npm run start:dev
-```
-
-By default it uses:
-
-- `PORT=4000`
-- `ML_API_BASE_URL=http://127.0.0.1:5001`
-
-If ML API is offline:
-
-- `POST /estimate` returns a safe fallback estimate.
-- `GET /listings` falls back to in-memory demo data.
