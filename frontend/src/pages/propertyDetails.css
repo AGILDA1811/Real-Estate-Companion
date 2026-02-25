@@ -1,7 +1,7 @@
 .property-page {
   background: #f8f9fb;
   min-height: calc(100vh - 140px);
-  padding: 34px 0 56px;
+  padding: 44px 0 64px;
   color: #0b1220;
 }
 
@@ -27,13 +27,13 @@
   border: 1px solid rgba(11, 18, 32, 0.1);
   background: #ffffff;
   box-shadow: 0 12px 30px rgba(11, 18, 32, 0.06);
-  padding: 16px;
+  padding: 20px;
 }
 
 .property-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 16px;
+  gap: 20px;
   align-items: start;
 }
 
@@ -147,6 +147,10 @@
 }
 
 @media (max-width: 940px) {
+  .property-page {
+    padding: 34px 0 48px;
+  }
+
   .property-grid {
     grid-template-columns: 1fr;
   }

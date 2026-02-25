@@ -42,7 +42,12 @@ export default function Help() {
   });
 
   return (
-    <div className="help">
+    <motion.div
+      className="help"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
 
       {/* HERO */}
       <section className="help-hero">
@@ -82,8 +87,7 @@ export default function Help() {
           {["Getting Started", "Listings", "Tools", "Account"].map((cat) => (
             <motion.div
               key={cat}
-              className="help-card"
-              whileHover={{ y: -4 }}
+              className="help-card card-hover"
             >
               <h3>{cat}</h3>
               <p>Browse articles related to {cat.toLowerCase()}.</p>
@@ -101,7 +105,7 @@ export default function Help() {
             {filteredFaqs.map((faq) => (
               <div
                 key={faq.id}
-                className={`help-faqItem ${
+                className={`help-faqItem card-hover ${
                   activeFaqId === faq.id ? "active" : ""
                 }`}
                 onClick={() =>
@@ -137,6 +141,6 @@ export default function Help() {
         </div>
       </section>
 
-    </div>
+    </motion.div>
   );
 }

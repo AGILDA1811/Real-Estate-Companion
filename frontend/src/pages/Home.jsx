@@ -72,7 +72,12 @@ const steps = [
 
 export default function Home() {
   return (
-    <div className="home-page">
+    <motion.div
+      className="home-page"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.65, ease: "easeOut" }}
+    >
       <motion.section className="home-hero" initial="hidden" animate="visible" variants={staggerContainer}>
         <div className="home-container home-hero-grid">
           <motion.div className="home-hero-copy" variants={staggerContainer}>
@@ -263,6 +268,6 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
-    </div>
+    </motion.div>
   );
 }

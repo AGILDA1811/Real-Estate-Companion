@@ -106,7 +106,7 @@
 }
 
 .admin-statCard:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: 0 10px 24px rgba(14, 23, 42, 0.08);
 }
 
