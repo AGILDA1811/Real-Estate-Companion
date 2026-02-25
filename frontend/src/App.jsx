@@ -18,6 +18,11 @@ import ToolsLayout from "./pages/Tools/ToolsLayout";
 import EstimatorTool from "./pages/Tools/EstimatorTool";
 import DealFinderTool from "./pages/Tools/DealFinderTool";
 import MarketDashboard from "./pages/Tools/MarketDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLayout from "./pages/Admin/AdminLayout";
+import Dashboard from "./pages/Admin/Dashboard";
+import Listings from "./pages/Admin/Listings";
+import Users from "./pages/Admin/Users";
 
 export default function App() {
   return (
@@ -40,6 +45,19 @@ export default function App() {
           <Route path="estimator" element={<EstimatorTool />} />
           <Route path="deal-finder" element={<DealFinderTool />} />
           <Route path="market-dashboard" element={<MarketDashboard />} />
+        </Route>
+        <Route
+          path="/admin"
+          element={(
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          )}
+        >
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="listings" element={<Listings />} />
+          <Route path="users" element={<Users />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
