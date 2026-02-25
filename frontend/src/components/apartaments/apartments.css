@@ -114,6 +114,11 @@
   color: rgba(11, 18, 32, 0.82);
 }
 
+.apartments-toggleInline {
+  align-self: end;
+  margin-bottom: 10px;
+}
+
 .apartments-sliderPlaceholder {
   display: grid;
   gap: 6px;
@@ -174,10 +179,13 @@
   margin-top: 14px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 16px;
 }
 
 .apartments-card {
+  height: 100%;
+  display: flex;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(11, 18, 32, 0.1);
@@ -207,6 +215,9 @@
 }
 
 .apartments-cardBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   padding: 14px;
 }
 
@@ -238,6 +249,29 @@
   margin: 10px 0 0;
   line-height: 1.65;
   color: rgba(11, 18, 32, 0.74);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.apartments-desc.is-expanded {
+  display: block;
+}
+
+.apartments-loadMoreBtn {
+  margin-top: 8px;
+  align-self: flex-start;
+  border: 0;
+  background: transparent;
+  color: #243662;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0;
+}
+
+.apartments-cardActions {
+  margin-top: auto;
 }
 
 .apartments-link {
@@ -292,6 +326,26 @@
   background: #ffffff;
   padding: 14px;
   color: rgba(11, 18, 32, 0.74);
+}
+
+.apartments-loadMoreWrap {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.apartments-loadMoreMainBtn {
+  border-radius: 12px;
+  border: 1px solid rgba(11, 18, 32, 0.2);
+  background: #ffffff;
+  color: #0b1220;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 16px;
+}
+
+.apartments-loadMoreMainBtn:hover {
+  background: #f7f9fd;
 }
 
 @media (max-width: 1000px) {

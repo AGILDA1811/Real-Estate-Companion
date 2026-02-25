@@ -22,4 +22,12 @@ export class ListingsController {
     }
     return listing;
   }
+
+  @Get(':id/comps')
+  async getComparableListings(@Param('id') id: string, @Query('limit') limit?: string) {
+    const parsedLimit = Number(limit);
+    const safeLimit =
+      Number.isFinite(parsedLimit) && parsedLimit > 0 ? Math.min(parsedLimit, 10) : 5;
+    return this.listingsService.getComparableListings(id, safeLimit);
+  }
 }

@@ -13,7 +13,17 @@ export type Listing = {
   bathrooms: number;
   floor: number;
   location: string;
+  address?: string;
   description: string;
+  furnishing?: string;
+  hasElevator?: boolean;
+  hasTerrace?: boolean;
+  hasGarage?: boolean;
+  hasParking?: boolean;
+  lat?: number;
+  lng?: number;
+  propertyType?: string;
+  propertyStatus?: string;
   status: ListingStatus;
   estimatedPrice: number;
 };

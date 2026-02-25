@@ -24,6 +24,8 @@ function mockEstimate(payload) {
 
   return {
     estimatedPrice,
+    low: 0,
+    high: 0,
     confidence: 0.58,
     explanation: "MOCK fallback estimate (frontend temporary).",
     source: "mock",
@@ -78,6 +80,8 @@ export async function getEstimate(payload) {
 
       const finalResult = {
         estimatedPrice: Number(result?.estimatedPrice) || 0,
+        low: Number(result?.low) || 0,
+        high: Number(result?.high) || 0,
         confidence: typeof result?.confidence === "number" ? result.confidence : null,
         explanation: result?.explanation || "",
         source: "api",

@@ -9,3 +9,8 @@ export async function fetchApartmentById(id) {
   const data = await apiFetch(`/listings/${id}`);
   return data || null;
 }
+
+export async function fetchCompsByApartmentId(id) {
+  const data = await apiFetch(`/listings/${id}/comps?limit=5`);
+  return Array.isArray(data) ? data : [];
+}
