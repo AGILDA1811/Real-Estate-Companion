@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1d3430"/>
+      <stop offset="100%" stop-color="#5f8d82"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g3)"/>
+  <rect x="110" y="110" width="980" height="580" rx="24" fill="#f3fbf9" opacity="0.92"/>
+  <rect x="170" y="190" width="860" height="180" rx="14" fill="#d8ece7"/>
+  <rect x="170" y="390" width="410" height="230" rx="14" fill="#d8ece7"/>
+  <rect x="620" y="390" width="410" height="230" rx="14" fill="#d8ece7"/>
+  <text x="130" y="88" font-family="Segoe UI, Arial, sans-serif" font-size="44" fill="#ffffff">Apartment Image</text>
+</svg>
