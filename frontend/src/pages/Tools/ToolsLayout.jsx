@@ -36,6 +36,9 @@ export default function ToolsLayout() {
             <NavLink to="/tools/market-dashboard" className={({ isActive }) => isActive ? "is-active" : ""}>
               Market Dashboard
             </NavLink>
+            <NavLink to="/tools/compare" className={({ isActive }) => isActive ? "is-active" : ""}>
+              Compare Properties
+            </NavLink>
           </nav>
         </aside>
 

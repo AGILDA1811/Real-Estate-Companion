@@ -29,6 +29,7 @@ export default function Footer() {
           <Link to="/tools/estimator">Price Estimator</Link>
           <Link to="/tools/deal-finder">Deal Finder</Link>
           <Link to="/tools/market-dashboard">Market Dashboard</Link>
+          <Link to="/tools/compare">Compare Properties</Link>
         </div>
 
 
