@@ -5,12 +5,16 @@ import "./navbar.css";
 import logo from "../../assets/logo.png";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
   const menuRef = useRef(null);
 
   
   useEffect(() => {
     const onDown = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpen(false);
+        setToolsOpen(false);
+      }
     };
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
@@ -19,13 +23,27 @@ export default function Navbar() {
 
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        setToolsOpen(false);
+      }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  const close = () => setOpen(false);
+  const close = () => {
+    setOpen(false);
+    setToolsOpen(false);
+  };
+
+  const toggleTools = () => setToolsOpen((v) => !v);
+  const openToolsOnHover = () => {
+    if (window.matchMedia("(min-width: 921px)").matches) setToolsOpen(true);
+  };
+  const closeToolsOnHover = () => {
+    if (window.matchMedia("(min-width: 921px)").matches) setToolsOpen(false);
+  };
 
   return (
     <header className="rec-header" ref={menuRef}>
@@ -69,12 +87,28 @@ export default function Navbar() {
             Help Center
           </NavLink>
 
+          <div
+            className={`navbar-tools ${toolsOpen ? "is-open" : ""}`}
+            onMouseEnter={openToolsOnHover}
+            onMouseLeave={closeToolsOnHover}
+          >
+            <button
+              type="button"
+              className="navbar-toolsToggle"
+              onClick={toggleTools}
+              aria-expanded={toolsOpen}
+              aria-haspopup="true"
+            >
+              Tools
+            </button>
+            <div className="navbar-toolsMenu">
+              <Link to="/tools/estimator" onClick={close}>Price Estimator</Link>
+              <Link to="/tools/deal-finder" onClick={close}>Deal Finder</Link>
+              <Link to="/tools/market-dashboard" onClick={close}>Market Dashboard</Link>
+            </div>
+          </div>
+
           <div className="rec-actions">
-            <Link className="rec-ghostBtn" to="/contacts" onClick={close}>
-              List your property
-            </Link>
-
-
             <Link className="rec-primaryBtn" to="/login" onClick={close}>
               Sign in
             </Link>

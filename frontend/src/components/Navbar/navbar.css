@@ -89,6 +89,64 @@
   background: rgba(255,255,255,0.45);
 }
 
+.navbar-tools{
+  position: relative;
+}
+
+.navbar-toolsToggle{
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  transition: transform 120ms ease, background 120ms ease, color 120ms ease;
+}
+
+.navbar-toolsToggle:hover{
+  color: var(--text);
+  background: var(--card);
+  transform: translateY(-1px);
+}
+
+.navbar-toolsMenu{
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 210px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: rgba(11,18,32,0.96);
+  box-shadow: var(--shadow);
+  padding: 8px;
+  display: grid;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.navbar-tools.is-open .navbar-toolsMenu{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.navbar-toolsMenu a{
+  display: block;
+  border-radius: 10px;
+  padding: 8px 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.navbar-toolsMenu a:hover{
+  background: var(--card);
+}
+
 
 .rec-actions{
   display: flex;
@@ -186,6 +244,15 @@
     display: grid;
     gap: 10px;
     padding-top: 4px;
+  }
+
+  .navbar-toolsMenu{
+    position: static;
+    margin-top: 6px;
+    min-width: 0;
+    box-shadow: none;
+    border-color: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
   }
 
   .rec-ghostBtn, .rec-primaryBtn{

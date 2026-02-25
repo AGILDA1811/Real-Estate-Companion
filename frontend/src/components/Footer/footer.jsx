@@ -27,8 +27,8 @@ export default function Footer() {
         <div className="rec-footer-col">
           <h3>Tools</h3>
           <Link to="/tools/estimator">Price Estimator</Link>
-          <Link to="/dashboard">Market Dashboard</Link>
-          <Link to="/apartments">Deal Finder</Link>
+          <Link to="/tools/deal-finder">Deal Finder</Link>
+          <Link to="/tools/market-dashboard">Market Dashboard</Link>
         </div>
 
 

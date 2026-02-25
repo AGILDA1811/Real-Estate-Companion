@@ -1,11 +1,11 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar/navbar";
 import Footer from "./components/Footer/footer";
 import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
 import Apartments from "./pages/Apartaments";
-import ApartmentDetailsPage from "./pages/apartmentDetails";
+import PropertyDetails from "./pages/PropertyDetails";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 import Help from "./pages/Help";
@@ -14,6 +14,10 @@ import Signup from "./pages/Signup";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import ToolsLayout from "./pages/Tools/ToolsLayout";
+import EstimatorTool from "./pages/Tools/EstimatorTool";
+import DealFinderTool from "./pages/Tools/DealFinderTool";
+import MarketDashboard from "./pages/Tools/MarketDashboard";
 
 export default function App() {
   return (
@@ -23,7 +27,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/apartments" element={<Apartments />} />
-        <Route path="/apartments/:id" element={<ApartmentDetailsPage />} />
+        <Route path="/apartments/:id" element={<PropertyDetails />} />
         <Route path="/about" element={<About />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/help" element={<Help />} />
@@ -31,6 +35,12 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/tools" element={<ToolsLayout />}>
+          <Route index element={<Navigate to="estimator" replace />} />
+          <Route path="estimator" element={<EstimatorTool />} />
+          <Route path="deal-finder" element={<DealFinderTool />} />
+          <Route path="market-dashboard" element={<MarketDashboard />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
