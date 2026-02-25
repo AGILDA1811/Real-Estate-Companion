@@ -4,8 +4,13 @@ export default function FiltersBar({
   goodDealsOnly,
   onGoodDealsChange,
   priceRange,
+  priceRangeMax,
   onPriceRangeChange,
 }) {
+  const max = Number(priceRangeMax) > 0 ? Number(priceRangeMax) : 2200;
+  const min = 0;
+  const step = max > 100000 ? 1000 : 100;
+
   return (
     <section className="apartments-filtersRow">
       <div className="apartments-filterGroup">
@@ -22,17 +27,17 @@ export default function FiltersBar({
       </label>
 
       <div className="apartments-sliderPlaceholder">
-        <label htmlFor="apartments-priceRange">Price range (placeholder)</label>
+        <label htmlFor="apartments-priceRange">Price range</label>
         <input
           id="apartments-priceRange"
           type="range"
-          min="400"
-          max="2200"
-          step="50"
+          min={min}
+          max={max}
+          step={step}
           value={priceRange}
           onChange={onPriceRangeChange}
         />
-        <small>Up to {priceRange} €</small>
+        <small>Up to {Math.round(priceRange).toLocaleString()} €</small>
       </div>
     </section>
   );
