@@ -1,12 +1,28 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useApartments } from "../components/hooks/useApartments";
-import "../components/apartaments/apartments.css";
 import SearchBar from "../components/apartaments/SearchBar";
 import FiltersBar from "../components/apartaments/FiltersBar";
 import ApartmentCard from "../components/apartaments/ApartmentCard";
+import { evaluateDeal, getEstimate } from "../services/estimatorService";
+import "../components/apartaments/apartments.css";
+
+function toEstimatePayload(listing) {
+  return {
+    id: listing.id || listing._id,
+    price: listing.price,
+    size: listing.size ?? listing.meters,
+    rooms: listing.rooms,
+    location: listing.location,
+  };
+}
+
+function getListingId(listing) {
+  return listing.id || listing._id;
+}
 
 export default function ApartmentsPage() {
   const { apartments, loading, error } = useApartments();
+
   const [searchValues, setSearchValues] = useState({
     location: "",
     minPrice: "",
@@ -22,6 +38,51 @@ export default function ApartmentsPage() {
   const [sort, setSort] = useState("price-asc");
   const [goodDealsOnly, setGoodDealsOnly] = useState(false);
   const [priceRange, setPriceRange] = useState(2200);
+
+  const [estimatesById, setEstimatesById] = useState({});
+  const [loadingEstimates, setLoadingEstimates] = useState(false);
+  const [estimateError, setEstimateError] = useState("");
+
+  useEffect(() => {
+    if (!apartments.length) return;
+    let active = true;
+
+    (async () => {
+      try {
+        setLoadingEstimates(true);
+        setEstimateError("");
+
+        const missingListings = apartments.filter((listing) => {
+          const id = getListingId(listing);
+          return !estimatesById[id];
+        });
+
+        if (!missingListings.length) return;
+
+        const results = await Promise.all(
+          missingListings.map(async (listing) => {
+            const id = getListingId(listing);
+            const estimate = await getEstimate(toEstimatePayload(listing));
+            return [id, estimate];
+          })
+        );
+
+        if (!active) return;
+        setEstimatesById((prev) => ({
+          ...prev,
+          ...Object.fromEntries(results),
+        }));
+      } catch (e) {
+        if (active) setEstimateError(e?.message || "Failed to run deal finder.");
+      } finally {
+        if (active) setLoadingEstimates(false);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [apartments, estimatesById]);
 
   function handleSearchChange(e) {
     const { name, value } = e.target;
@@ -50,16 +111,14 @@ export default function ApartmentsPage() {
       const aptLocation = (apartment.location || "").toLowerCase();
       const price = Number(apartment.price) || 0;
       const aptRooms = Number(apartment.rooms) || 0;
-      const isGoodDeal =
-        typeof apartment.price === "number" &&
-        typeof apartment.estimatedPrice === "number" &&
-        apartment.price < apartment.estimatedPrice;
+      const estimate = estimatesById[getListingId(apartment)];
+      const deal = evaluateDeal(apartment.price, estimate?.estimatedPrice);
 
       const matchesLocation = !location || aptLocation.includes(location);
       const matchesMinPrice = price >= minPrice;
       const matchesMaxPrice = price <= maxPrice;
       const matchesRooms = !rooms || aptRooms >= rooms;
-      const matchesGoodDeals = !goodDealsOnly || isGoodDeal;
+      const matchesGoodDeals = !goodDealsOnly || deal.isGoodDeal;
       const matchesRange = price <= priceRange;
 
       return (
@@ -79,7 +138,7 @@ export default function ApartmentsPage() {
       return sort === "price-desc" ? bPrice - aPrice : aPrice - bPrice;
     });
     return sorted;
-  }, [apartments, appliedSearch, sort, goodDealsOnly, priceRange]);
+  }, [apartments, appliedSearch, sort, goodDealsOnly, priceRange, estimatesById]);
 
   return (
     <main className="apartments-page">
@@ -119,13 +178,26 @@ export default function ApartmentsPage() {
 
         {loading ? <p className="apartments-state">Loading...</p> : null}
         {error ? <p className="apartments-state apartments-error">{error}</p> : null}
+        {loadingEstimates ? <p className="apartments-state">Running Deal Finder...</p> : null}
+        {estimateError ? <p className="apartments-state apartments-error">{estimateError}</p> : null}
 
         {!loading && !error ? (
           filteredApartments.length ? (
             <section className="apartments-grid">
-              {filteredApartments.map((apartment) => (
-                <ApartmentCard key={apartment.id || apartment._id} apartment={apartment} />
-              ))}
+              {filteredApartments.map((apartment) => {
+                const id = getListingId(apartment);
+                const estimate = estimatesById[id];
+                const deal = evaluateDeal(apartment.price, estimate?.estimatedPrice);
+
+                return (
+                  <ApartmentCard
+                    key={id}
+                    apartment={apartment}
+                    isGoodDeal={deal.isGoodDeal}
+                    estimatedPrice={estimate?.estimatedPrice ?? null}
+                  />
+                );
+              })}
             </section>
           ) : (
             <p className="apartments-empty">No apartments match the current filters.</p>
