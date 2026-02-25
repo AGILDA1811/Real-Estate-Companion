@@ -13,6 +13,9 @@ __pycache__/
 *.joblib
 
 .env
+.env.*
+!.env.example
+
 
 
 # Data
@@ -20,3 +23,6 @@ __pycache__/
 *.csv
 *.parquet
 *.zip
+
+# Backend build output
+backend/dist/
