@@ -1,3 +1,284 @@
+.apartments-page {
+  background: #f8f9fb;
+  min-height: calc(100vh - 140px);
+  padding: 36px 0 54px;
+  color: #0b1220;
+}
+
+.apartments-container {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+}
+
+.apartments-title {
+  margin: 0 0 18px;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.12;
+}
+
+.apartments-searchSection {
+  border-radius: 18px;
+  border: 1px solid rgba(11, 18, 32, 0.1);
+  background: #ffffff;
+  box-shadow: 0 14px 36px rgba(11, 18, 32, 0.06);
+  padding: 16px;
+}
+
+.apartments-searchBar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.apartments-field {
+  display: grid;
+  gap: 6px;
+}
+
+.apartments-field label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(11, 18, 32, 0.6);
+}
+
+.apartments-field input,
+.apartments-filterGroup select {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(11, 18, 32, 0.18);
+  padding: 11px 12px;
+  font-size: 14px;
+  background: #ffffff;
+  outline: none;
+}
+
+.apartments-field input:focus,
+.apartments-filterGroup select:focus {
+  border-color: #243662;
+  box-shadow: 0 0 0 3px rgba(36, 54, 98, 0.12);
+}
+
+.apartments-searchActions {
+  display: flex;
+  gap: 8px;
+}
+
+.apartments-btn {
+  border-radius: 12px;
+  border: 1px solid rgba(11, 18, 32, 0.16);
+  padding: 11px 14px;
+  font-weight: 700;
+}
+
+.apartments-btnPrimary {
+  background: #0b1220;
+  border-color: #0b1220;
+  color: #ffffff;
+}
+
+.apartments-btnGhost {
+  background: #ffffff;
+  color: #0b1220;
+}
+
+.apartments-filtersRow {
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(11, 18, 32, 0.1);
+  background: #ffffff;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.apartments-filterGroup {
+  display: grid;
+  gap: 5px;
+}
+
+.apartments-filterGroup label,
+.apartments-sliderPlaceholder label {
+  font-size: 12px;
+  color: rgba(11, 18, 32, 0.62);
+}
+
+.apartments-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(11, 18, 32, 0.82);
+}
+
+.apartments-sliderPlaceholder {
+  display: grid;
+  gap: 6px;
+}
+
+.apartments-sliderPlaceholder input {
+  width: 100%;
+}
+
+.apartments-sliderPlaceholder small {
+  font-size: 12px;
+  color: rgba(11, 18, 32, 0.62);
+}
+
+.apartments-resultsHeader {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.apartments-resultsHeader p {
+  margin: 0;
+  font-weight: 700;
+}
+
+.apartments-filterGroupInline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.apartments-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.apartments-card {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(11, 18, 32, 0.1);
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(11, 18, 32, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.apartments-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(11, 18, 32, 0.18);
+  box-shadow: 0 22px 40px rgba(11, 18, 32, 0.1);
+}
+
+.apartments-dealBadge {
+  border-radius: 999px;
+  background: rgba(19, 35, 73, 0.92);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 10px;
+}
+
+.apartments-dealBadgeInline {
+  display: inline-flex;
+  margin-bottom: 10px;
+}
+
+.apartments-cardBody {
+  padding: 14px;
+}
+
+.apartments-topRow {
+  display: grid;
+  gap: 2px;
+}
+
+.apartments-price {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.apartments-location {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(11, 18, 32, 0.68);
+}
+
+.apartments-meta {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: rgba(11, 18, 32, 0.66);
+}
+
+.apartments-desc {
+  margin: 10px 0 0;
+  line-height: 1.65;
+  color: rgba(11, 18, 32, 0.74);
+}
+
+.apartments-link {
+  margin-top: 12px;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 800;
+  color: #0b1220;
+}
+
+.apartments-link:hover {
+  text-decoration: underline;
+}
+
+.apartments-state {
+  margin-top: 14px;
+}
+
+.apartments-error {
+  color: #9b1f2a;
+}
+
+.apartments-empty {
+  margin-top: 12px;
+  border-radius: 12px;
+  border: 1px dashed rgba(11, 18, 32, 0.2);
+  background: #ffffff;
+  padding: 14px;
+  color: rgba(11, 18, 32, 0.74);
+}
+
+@media (max-width: 1000px) {
+  .apartments-searchBar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .apartments-searchActions {
+    grid-column: 1 / -1;
+  }
+
+  .apartments-filtersRow {
+    grid-template-columns: 1fr;
+  }
+
+  .apartments-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .apartments-searchBar {
+    grid-template-columns: 1fr;
+  }
+
+  .apartments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .apartments-resultsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .aptPage {
   max-width: 900px;
   margin: 40px auto;

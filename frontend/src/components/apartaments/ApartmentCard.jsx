@@ -5,21 +5,33 @@ export default function ApartmentCard({ apartment }) {
   if (!apartment) return null;
 
   const id = apartment.id || apartment._id;
+  const isGoodDeal =
+    typeof apartment.price === "number" &&
+    typeof apartment.estimatedPrice === "number" &&
+    apartment.price < apartment.estimatedPrice;
 
   return (
-    <div className="aptCard">
-      <div className="aptTop">
-        <div className="aptPrice">{apartment.price != null ? `${apartment.price} €` : "— €"}</div>
-        <div className="aptMeters">{apartment.meters != null ? `${apartment.meters} m²` : "— m²"}</div>
+    <article className="apartments-card">
+      <div className="apartments-cardBody">
+        {isGoodDeal ? <span className="apartments-dealBadge apartments-dealBadgeInline">🔥 Good Deal</span> : null}
+        <div className="apartments-topRow">
+          <h3 className="apartments-price">{apartment.price != null ? `${apartment.price} €` : "— €"}</h3>
+          <p className="apartments-location">{apartment.location || "Location unavailable"}</p>
+        </div>
+
+        <p className="apartments-meta">
+          {apartment.meters != null ? `${apartment.meters} m²` : "— m²"} ·{" "}
+          {apartment.rooms != null ? `${apartment.rooms} rooms` : "Rooms n/a"}
+        </p>
+
+        <p className="apartments-desc">{apartment.description || "No description available."}</p>
+
+        {id ? (
+          <Link className="apartments-link" to={`/apartments/${id}`}>
+            View details →
+          </Link>
+        ) : null}
       </div>
-
-      <p className="aptDesc">{apartment.description || "No description available."}</p>
-
-      {id ? (
-        <Link className="aptLink" to={`/apartments/${id}`}>
-          View details →
-        </Link>
-      ) : null}
-    </div>
+    </article>
   );
 }
