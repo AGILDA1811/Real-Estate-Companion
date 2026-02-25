@@ -37,23 +37,38 @@ def get_listings():
 
     if bedrooms:
         filtered = filtered[
-            df["main_property_property_composition_bedrooms"] == int(bedrooms)
+            filtered["main_property_property_composition_bedrooms"] == int(bedrooms)
         ]
 
     listings = filtered.head(limit)[[
         "price_in_euro",
+        "main_property_price_currency",
         "main_property_property_square",
         "main_property_property_composition_bedrooms",
         "main_property_property_composition_bathrooms",
+        "main_property_property_composition_living_rooms",
+        "main_property_property_composition_balconies",
+        "main_property_property_composition_kitchens",
         "main_property_floor",
+        "main_property_property_type",
+        "main_property_property_status",
         "main_property_location_lat",
         "main_property_location_lng",
+        "main_property_location_city_zone_city_city_name",
+        "main_property_location_city_zone_formatted_address",
         "main_property_furnishing_status",
         "main_property_has_elevator",
+        "main_property_has_parking_space",
+        "main_property_has_garage",
+        "main_property_has_terrace",
+        "main_property_has_garden",
+        "main_property_has_carport",
+        "main_property_description_text_content_original_text",
     ]].copy()
 
     listings = listings.fillna(0)
     listings.index = range(len(listings))
+    listings.insert(0, "id", listings.index + 1)
 
     return jsonify(listings.to_dict(orient="records"))
 
@@ -100,4 +115,4 @@ if __name__ == "__main__":
     print("  GET  /listings/<id>")
     print("  POST /predict")
     print("  GET  /comps/<id>")
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5001)

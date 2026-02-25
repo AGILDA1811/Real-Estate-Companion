@@ -105,7 +105,21 @@ export default function ApartmentsPage() {
     setSearchValues(cleared);
     setAppliedSearch(cleared);
     setGoodDealsOnly(false);
+    setPriceRange(priceRangeMax);
   }
+
+  const priceRangeMax = useMemo(() => {
+    const prices = apartments
+      .map((apartment) => Number(apartment.price) || 0)
+      .filter((value) => value > 0);
+    if (!prices.length) return 2200;
+    return Math.max(...prices);
+  }, [apartments]);
+
+  useEffect(() => {
+    if (!apartments.length) return;
+    setPriceRange((current) => (current === 2200 ? priceRangeMax : Math.min(current, priceRangeMax)));
+  }, [apartments, priceRangeMax]);
 
   function isCompared(listing) {
     const id = getListingId(listing);
@@ -186,6 +200,7 @@ export default function ApartmentsPage() {
           goodDealsOnly={goodDealsOnly}
           onGoodDealsChange={(e) => setGoodDealsOnly(e.target.checked)}
           priceRange={priceRange}
+          priceRangeMax={priceRangeMax}
           onPriceRangeChange={(e) => setPriceRange(Number(e.target.value))}
         />
 

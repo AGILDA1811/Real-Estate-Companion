@@ -9,7 +9,7 @@ type MlPredictResponse = {
 
 @Injectable()
 export class EstimateService {
-  private readonly mlBaseUrl = process.env.ML_API_BASE_URL || 'http://127.0.0.1:5000';
+  private readonly mlBaseUrl = process.env.ML_API_BASE_URL || 'http://127.0.0.1:5001';
 
   async estimate(input: EstimateRequest): Promise<EstimateResponse> {
     const payloadForMl = {
@@ -26,32 +26,44 @@ export class EstimateService {
       lng: Number(input.lng) || 19.81902,
     };
 
-    const res = await fetch(`${this.mlBaseUrl}/predict`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payloadForMl),
-    });
+    try {
+      const res = await fetch(`${this.mlBaseUrl}/predict`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payloadForMl),
+      });
 
-    if (!res.ok) {
-      throw new BadGatewayException('ML API returned an error.');
+      if (!res.ok) {
+        throw new BadGatewayException('ML API returned an error.');
+      }
+
+      const data = (await res.json()) as MlPredictResponse;
+      const estimatedPrice = Math.round(Number(data.estimate) || 0);
+      if (!estimatedPrice) {
+        throw new BadGatewayException('ML API response is missing estimate.');
+      }
+
+      const low = Number(data.low) || estimatedPrice * 0.9;
+      const high = Number(data.high) || estimatedPrice * 1.1;
+      const spread = Math.max(0, high - low);
+      const confidence = Math.max(0.5, Math.min(0.95, 1 - spread / (estimatedPrice * 2)));
+
+      return {
+        estimatedPrice,
+        confidence: Number(confidence.toFixed(2)),
+        explanation: `Estimated by ML model using size/rooms and Tirana location features.`,
+      };
+    } catch {
+      const basePrice = Number(input.price) || 0;
+      const sizeFactor = (Number(input.size) || 0) * 1.2;
+      const roomsFactor = (Number(input.rooms) || 0) * 35;
+      const locationFactor = (input.location || '').length * 2;
+      const estimatedPrice = Math.round(basePrice + sizeFactor + roomsFactor + locationFactor);
+      return {
+        estimatedPrice,
+        confidence: 0.58,
+        explanation: 'Fallback estimate used because ML API is unavailable.',
+      };
     }
-
-    const data = (await res.json()) as MlPredictResponse;
-    const estimatedPrice = Math.round(Number(data.estimate) || 0);
-
-    if (!estimatedPrice) {
-      throw new BadGatewayException('ML API response is missing estimate.');
-    }
-
-    const low = Number(data.low) || estimatedPrice * 0.9;
-    const high = Number(data.high) || estimatedPrice * 1.1;
-    const spread = Math.max(0, high - low);
-    const confidence = Math.max(0.5, Math.min(0.95, 1 - spread / (estimatedPrice * 2)));
-
-    return {
-      estimatedPrice,
-      confidence: Number(confidence.toFixed(2)),
-      explanation: `Estimated by ML model using size/rooms and Tirana location features.`,
-    };
   }
 }

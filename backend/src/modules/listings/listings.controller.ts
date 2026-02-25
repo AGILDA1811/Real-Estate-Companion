@@ -9,7 +9,7 @@ export class ListingsController {
   async getListings(@Query('limit') limit?: string) {
     const parsedLimit = Number(limit);
     const safeLimit =
-      Number.isFinite(parsedLimit) && parsedLimit > 0 ? Math.min(parsedLimit, 100) : 20;
+      Number.isFinite(parsedLimit) && parsedLimit > 0 ? Math.min(parsedLimit, 100000) : 100000;
 
     return this.listingsService.getListings(safeLimit);
   }
