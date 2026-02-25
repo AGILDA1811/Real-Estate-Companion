@@ -42,6 +42,7 @@ export default function Login() {
 
     // Temporary fake login logic
     if (email === "admin@admin.com" && password === "admin") {
+      localStorage.setItem("auth_token", "mock-admin-token");
       navigate("/admin");
       return;
     }
