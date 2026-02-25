@@ -10,6 +10,17 @@
   font-size: 28px;
 }
 
+.aptFilters {
+  margin-bottom: 12px;
+}
+
+.aptToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
 .aptGrid {
   display: grid;
   gap: 14px;
@@ -20,6 +31,18 @@
   border-radius: 12px;
   padding: 16px;
   background: #fff;
+  position: relative;
+}
+
+.aptDealBadge {
+  display: inline-block;
+  margin-bottom: 8px;
+  border-radius: 999px;
+  background: #142745;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .aptTop {
@@ -36,6 +59,12 @@
 
 .aptMeters {
   opacity: 0.85;
+}
+
+.aptEstimate {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: rgba(11, 18, 32, 0.72);
 }
 
 .aptDesc {

@@ -4,7 +4,7 @@ import Footer from "./components/Footer/footer";
 
 import Home from "./pages/Home";
 import Apartments from "./pages/Apartaments";
-import ApartmentDetailsPage from "./pages/apartmentDetails";
+import PropertyDetails from "./pages/PropertyDetails";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 import Help from "./pages/Help";
@@ -20,7 +20,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/apartments" element={<Apartments />} />
-        <Route path="/apartments/:id" element={<ApartmentDetailsPage />} />
+        <Route path="/apartments/:id" element={<PropertyDetails />} />
         <Route path="/about" element={<About />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/help" element={<Help />} />
