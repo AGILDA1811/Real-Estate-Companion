@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import { fetchApartmentById } from "../components/services/apartments.api";
 import { evaluateDeal, getEstimate } from "../services/estimatorService";
 import "../components/apartaments/apartments.css";
@@ -84,27 +86,42 @@ export default function PropertyDetails() {
 
   if (loading) {
     return (
-      <main className="property-page">
+      <motion.main
+        className="property-page"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <div className="property-shell">
           <p>Loading property...</p>
         </div>
-      </main>
+      </motion.main>
     );
   }
 
   if (error || !property) {
     return (
-      <main className="property-page">
+      <motion.main
+        className="property-page"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <div className="property-shell">
           <p className="property-error">{error || "Property not found."}</p>
           <Link to="/apartments" className="property-back">Back to apartments</Link>
         </div>
-      </main>
+      </motion.main>
     );
   }
 
   return (
-    <main className="property-page">
+    <motion.main
+      className="property-page"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="property-shell">
         <Link to="/apartments" className="property-back">← Back to apartments</Link>
 
@@ -175,6 +192,6 @@ export default function PropertyDetails() {
           </div>
         </section>
       </div>
-    </main>
+    </motion.main>
   );
 }

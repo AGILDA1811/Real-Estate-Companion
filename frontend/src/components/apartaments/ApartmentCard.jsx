@@ -11,7 +11,7 @@ export default function ApartmentCard({
   const id = apartment.id || apartment._id;
 
   return (
-    <article className="apartments-card">
+    <article className="apartments-card card-hover">
       <div className="apartments-cardBody">
         {isGoodDeal ? <span className="apartments-dealBadge apartments-dealBadgeInline">🔥 Below Market</span> : null}
         <div className="apartments-topRow">

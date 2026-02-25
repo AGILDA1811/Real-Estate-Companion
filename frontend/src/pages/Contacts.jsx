@@ -4,7 +4,12 @@ import "./contacts.css";
 
 export default function Contacts() {
   return (
-    <div className="contact">
+    <motion.div
+      className="contact"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
 
       {/* HERO */}
       <section className="contact-hero">
@@ -85,6 +90,6 @@ export default function Contacts() {
         />
       </section>
 
-    </div>
+    </motion.div>
   );
 }

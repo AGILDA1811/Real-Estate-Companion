@@ -1,7 +1,7 @@
 .apartments-page {
   background: #f8f9fb;
   min-height: calc(100vh - 140px);
-  padding: 36px 0 54px;
+  padding: 44px 0 64px;
   color: #0b1220;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .apartments-title {
-  margin: 0 0 18px;
+  margin: 0 0 24px;
   font-size: clamp(30px, 4vw, 44px);
   line-height: 1.12;
 }
@@ -265,6 +265,10 @@
 }
 
 @media (max-width: 680px) {
+  .apartments-page {
+    padding: 34px 0 48px;
+  }
+
   .apartments-searchBar {
     grid-template-columns: 1fr;
   }

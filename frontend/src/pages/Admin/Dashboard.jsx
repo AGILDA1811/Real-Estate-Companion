@@ -16,7 +16,7 @@ export default function Dashboard() {
       {/* Backend integration point: replace MOCK_STATS with GET /admin/stats */}
       <div className="admin-statsGrid">
         {MOCK_STATS.map((stat) => (
-          <article key={stat.id} className="admin-statCard">
+          <article key={stat.id} className="admin-statCard card-hover">
             <p className="admin-statLabel">{stat.label}</p>
             <p className="admin-statValue">{stat.value}</p>
             <div className="admin-statTrack" aria-hidden="true">

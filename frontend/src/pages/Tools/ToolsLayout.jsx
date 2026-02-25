@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import "./tools.css";
 
 export default function ToolsLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <main className="tools-page">
+    <motion.main
+      className="tools-page"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="tools-shell">
         <button
           type="button"
@@ -36,6 +43,6 @@ export default function ToolsLayout() {
           <Outlet />
         </section>
       </div>
-    </main>
+    </motion.main>
   );
 }

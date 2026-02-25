@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import { useApartments } from "../components/hooks/useApartments";
 import SearchBar from "../components/apartaments/SearchBar";
 import FiltersBar from "../components/apartaments/FiltersBar";
@@ -141,7 +143,12 @@ export default function ApartmentsPage() {
   }, [apartments, appliedSearch, sort, goodDealsOnly, priceRange, estimatesById]);
 
   return (
-    <main className="apartments-page">
+    <motion.main
+      className="apartments-page"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="apartments-container">
         <h1 className="apartments-title">Apartments</h1>
 
@@ -204,6 +211,6 @@ export default function ApartmentsPage() {
           )
         ) : null}
       </div>
-    </main>
+    </motion.main>
   );
 }

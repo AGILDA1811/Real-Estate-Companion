@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar/navbar";
 import Footer from "./components/Footer/footer";
 import ScrollToTop from "./components/ScrollToTop";
+import WelcomeOverlay from "./components/WelcomeOverlay";
+import "./styles/ux-refinements.css";
 
 import Home from "./pages/Home";
 import Apartments from "./pages/Apartaments";
@@ -28,6 +30,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      <WelcomeOverlay />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

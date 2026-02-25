@@ -55,7 +55,7 @@
 
 /* MAIN GRID */
 .contact-main {
-  padding: 80px 0;
+  padding: 100px 0;
 }
 
 .contact-grid {
@@ -147,6 +147,10 @@
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
+  .contact-main {
+    padding: 70px 0;
+  }
+
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 40px;

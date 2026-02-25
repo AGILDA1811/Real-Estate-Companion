@@ -19,19 +19,19 @@ export default function MarketDashboard() {
       </p>
 
       <div className="tools-statsGrid">
-        <article className="tools-statCard">
+        <article className="tools-statCard card-hover">
           <h3>Average Price</h3>
           <p>{mockStats.avgPrice} €</p>
         </article>
-        <article className="tools-statCard">
+        <article className="tools-statCard card-hover">
           <h3>Avg Price / m²</h3>
           <p>{mockStats.avgPricePerM2} €</p>
         </article>
-        <article className="tools-statCard">
+        <article className="tools-statCard card-hover">
           <h3>Deal Ratio</h3>
           <p>{mockStats.dealRatio}%</p>
         </article>
-        <article className="tools-statCard">
+        <article className="tools-statCard card-hover">
           <h3>Active Listings</h3>
           <p>{mockStats.activeListings}</p>
         </article>
